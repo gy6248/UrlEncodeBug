@@ -1,0 +1,36 @@
+﻿@page "/counter"
+@page "/counter/{ReportUrl}"
+@using System.Net;
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<h2>ReportUrl:</h2>
+<pre>@ReportUrl</pre>
+<p>The Url is partly decoded, but the + is not decoded to space in this stage (but the %2B is decoded to +)</p>
+
+<h2>myPath (decoded):</h2>
+<pre>@myPath</pre> 
+<p>So now all + will be decoded as space, of course</p>
+
+
+
+@code {
+    [Parameter]
+    public string? ReportUrl { get; set; }
+
+    private string myPath = string.Empty;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (!string.IsNullOrWhiteSpace(ReportUrl))
+        {
+            myPath = WebUtility.UrlDecode(ReportUrl);
+        }
+    }
+
+
+}

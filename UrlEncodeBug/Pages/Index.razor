@@ -1,0 +1,29 @@
+﻿@page "/"
+@using System.Net;
+@inject NavigationManager navMan
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Trying to pass a path as routing parameter to another page.  Please observe that the url is encoded as expected,
+but any '+' will become space ' ' after decoding the parameter.
+
+<EditForm Model="filePath" OnValidSubmit="Navigate">
+    <div class="row">
+        <InputText class="col-8" @bind-Value=filePath></InputText>
+        <button class="btn btn-primary col-2 mx-1" type="submit">Submit</button>
+    </div>
+</EditForm>
+
+@code
+{
+    string filePath = @"C:\temporary files\my +File.txt";
+
+    private void Navigate()
+    {
+        var fileUrl = WebUtility.UrlEncode(filePath);
+        navMan.NavigateTo("/counter/" + fileUrl);
+    }
+
+}
